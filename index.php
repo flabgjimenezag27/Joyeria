@@ -17,6 +17,11 @@ require_once(ROOT_PATH . 'account/accountController.php');
 
 		<form class="form-signin" action="" method="post">
 
+			<?php if(isset($error)) { ?>
+			<div class="alert alert-danger text-center">
+			<?php echo $error; ?>
+    </div>
+<?php } ?>
 <h3 class="text-center text-uppercase"><strong>User Login</strong></h3>
 	<p class="text-center"> Ingresa tus credenciales para ingresar al sitio web.</p>
 			<div class="form-group">

@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['login'])){
 		exit();
 
 	}else{
-		echo "invalid login attempt";
+    $error = "Usuario o contraseña incorrectos.";
 	}
 
 }
