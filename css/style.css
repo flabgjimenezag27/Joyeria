@@ -1,0 +1,410 @@
+body {
+ font-size: 0.95em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300 !important;
+   background-color: #E8E6E1; /* Fondo champagne suave */
+    color: #3b3b3b;            /* Texto gris elegante */
+}
+
+
+.f-3 {
+    font-weight: 300;
+}
+.f-4 {
+    font-weight: 400;
+}
+.f-7 {
+    font-weight: 700;
+}
+
+.fixedSpace {
+    height: 56px;
+}
+
+#main {
+    width: 80%;
+    height: 175px;
+}
+#headerWrapper {
+    height: 420px;
+    width: 100%;
+    background-image: url('../images/introjoyeria.jpeg');
+    background-repeat: no-repeat;
+    background-size: 100% 420px;
+}
+#detailsImage {
+    width: 350px;
+    height: 350px;
+}
+#myModalLabel {
+    overflow: hidden;
+}
+.container {
+    max-width: 960px;
+}
+.pricing-header {
+    max-width: 700px;
+}
+.card-deck .card {
+    min-width: 220px;
+}
+.thumbnailImage {
+  height: 150px;
+
+width: 150px;
+
+margin: auto;
+}
+.border {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: auto;
+    padding: 5px;
+}
+.space {
+    clear: both;
+}
+.intro {
+    background-color: #fff8ec; /* Fondo cálido */
+    padding: 20px;
+    border-radius: 8px;
+}
+.introImg {
+    background-image: url(../images/Banner-2.jpg);
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+.itemBox {
+	transition: 0.3s ease all;
+}
+
+
+.itemBox:hover {
+box-shadow: 0px 8px 20px -4px #c8c8c8;
+}
+
+.itemBox {
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    padding: 10px;
+}
+.itemBox h1 {
+font-size: 0.8em;
+text-transform: uppercase;
+height: 30px;
+}
+
+
+.btn-edit, .btn-delete{
+border-radius: 2rem !important;
+font-size: 0.9em;
+padding: 7px 10px;
+}
+
+.btn-orders{
+
+	font-size: 0.9em;
+	padding: 7px 10px;
+	}
+
+
+.cartTable{
+	font-size: 0.9em;
+	margin-bottom: 40px;
+	max-width: 1000px; margin: auto;
+}
+
+.cw{
+	width: 100px; text-align: center;
+}
+
+
+
+.smallImage{
+width:80px;
+height:80px;
+
+}
+
+
+.admingroup{
+
+}
+
+.h-100{
+	height: 100vh;
+}
+
+
+.form-signin{
+	max-width: 400px; margin: auto;
+}
+
+
+.myForm{
+	max-width: 800px; margin: auto;
+}
+
+#custom-search-input{
+padding: 3px;
+border: solid 1px #E4E4E4;
+border-radius: 6px;
+background-color: #fff;
+}
+
+#custom-search-input input{
+border: 0;
+box-shadow: none;
+}
+
+#custom-search-input button{
+margin: 2px 0 0 0;
+background: none;
+box-shadow: none;
+border: 0;
+color: #666666;
+padding: 0 8px 0 10px;
+border-left: solid 1px #ccc;
+border-radius: 0;
+}
+
+#custom-search-input button:hover{
+border: 0;
+box-shadow: none;
+border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+font-size: 23px;
+}
+.btn-edit, .btn-delete, .btn-orders {
+    background-color: #d4af37 !important;
+    color: white !important;
+    border: none;
+    border-radius: 10px !important;
+    padding: 10px 20px !important;
+    font-weight: 600;
+    transition: 0.3s ease all;
+}
+
+button:hover, .btn-edit:hover, .btn-delete:hover, .btn-orders:hover {
+    background-color: #b8952f !important;  /* Dorado más oscuro al pasar el mouse */
+    transform: scale(1.03);
+}
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    color: #1e1e1e;
+    letter-spacing: 1px;
+}
+/* Barra de Navegación */
+.navbar {
+    background-color: #0F1A2B; /* Azul Noche */
+    color: white;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar a:hover {
+    color: #D4AF37; /* Dorado */
+}
+
+/* Botones */
+button, .btn {
+    background-color: #006D77; /* Azul Petróleo */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+    background-color: #D4AF37; /* Dorado */
+    color: #0F1A2B; /* Texto oscuro */
+}
+
+/* Productos / Tarjetas */
+.itemBox {
+    background-color: #F5F5F5; /* Blanco Roto */
+    border: 1px solid #C0C0C0; /* Plata */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 15px;
+}
+
+/* Precio destacado */
+.price {
+   font-weight: 600;
+    color: #5A524C;
+    font-size: 0.95em;
+}
+
+.btn-details {
+    background-color: #0A9396;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 700;
+    transition: box-shadow 0.3s ease;
+}
+
+.btn-details:hover {
+    background-color: #0A9396;
+    color: #D4AF37;
+    box-shadow: 0 0 10px #D4AF37;
+}
+
+/* Footer */
+footer {
+    background-color: #0F1A2B; /* Azul Noche */
+    color: #E5E7EB; /* Gris Perla */
+    text-align: center;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #C0C0C0; /* Plata */
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #D4AF37;
+}
+.list-price.old-price s {
+    color: #A0A0A0 !important;       /* gris plata */
+    text-decoration: line-through !important;
+    font-weight: 400 !important;
+    font-size: 0.95em !important;
+}
+/*------------------------------------------------------------------------*/
+.navbar {
+    background-color: #0F1A2B !important; /* Azul Noche */
+}
+
+.navbar .navbar-brand {
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.6em;
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: #D4AF37 !important; /* Dorado al pasar mouse */
+}
+
+.navbar .dropdown-menu {
+    background-color: #0F1A2B !important; /* Fondo azul noche */
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    color: white !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+    background-color: #006D77 !important; /* Azul Petróleo hover */
+    color: #D4AF37 !important; /* Texto dorado */
+}
+
+/* Botones si hay */
+
+.navbar .btn {
+    background-color: #006D77 !important; /* Azul Petróleo */
+    color: white !important;
+    border-radius: 20px;
+    padding: 6px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .btn:hover {
+    background-color: #D4AF37 !important; /* Dorado */
+    color: #0F1A2B !important; /* Texto azul noche */
+}
+.modal-content {
+  background-color: #E8E6E1; /* Fondo suave */
+  border-radius: 12px;
+  border: 1px solid #C0C0C0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  color: #1e1e1e;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.modal-header {
+  background-color: #0F1A2B; /* Azul noche */
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 15px 20px;
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4em;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 25px;
+}
+
+.modal-body h4 {
+  font-family: 'Playfair Display', serif;
+  color: #0F1A2B;
+  margin-bottom: 10px;
+}
+
+.modal-footer {
+  background-color: #E8E6E1;
+  border-top: 1px solid #C0C0C0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 15px 20px;
+}
+
+#detailsImage {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+/* Hover para el botón Cerrar (.btn-default) dentro del modal */
+.modal-footer .btn-default:hover {
+  background-color: #0A9396 !important; /* Verde Esmeralda */
+  color: white !important;
+  border-color: #0A9396 !important;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover para el botón Añadir al Carrito (.btn-primary) dentro del modal */
+.modal-footer .btn-primary:hover {
+  background-color: #006D77 !important; /* Azul Petróleo */
+  color: white !important;
+  border-color: #006D77 !important;
+  transition: background-color 0.3s ease;
+}
+button.close.right {
+  font-size: 1.5rem !important;
+  color: #999999 !important; /* Gris suave */
+  opacity: 0.6 !important;
+  transition: color 0.3s ease, opacity 0.3s ease !important;
+  cursor: pointer !important;
+}
+
+button.close.right:hover {
+  color: #555555 !important; /* Gris un poco más oscuro */
+  opacity: 1 !important;
+}
