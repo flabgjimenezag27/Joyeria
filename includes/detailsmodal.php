@@ -56,7 +56,8 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 									<div class="col-sm-3">
 										<div class="form-group">
 											<label for="quantity">Cantidad:</label>
-											<input type="number" class="form-control" id="quantity" name="quantity" min="0">
+											<input type="text" class="form-control" id="quantity" name="quantity" placeholder="Ingrese cantidad">
+											<small class="form-text text-danger" id="quantityError" style="display:none;"></small>
 										</div>
 									</div>
 
@@ -73,6 +74,7 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 									</div>
 
 								</div>
+								<div id="alertContainer"></div>
 								<p><span class="items-left"><strong>Stock:</strong></span> <span><?php echo $product['quantity']; ?></span></p>
 						</div>
 					</div>
@@ -81,7 +83,7 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" onclick="closeModal()">Cerrar</button>
-				<button type="submit" name="AddToCart" class="btn btn-primary" onclick="getItemID(<?php echo $itemID = $id; ?>)"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
+				<button type="button" class="btn btn-primary" onclick="validateAndAddToCart(event, <?php echo $itemID = $id; ?>)"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
 			</div>
 		</div>
 	</div>
@@ -94,6 +96,71 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 			jQuery('#details-modal').remove();
 			jQuery('.modal-backdrop').remove();
 		},500);
+	}
+
+	// Validación de cantidad en campo de texto (solo números)
+	document.addEventListener('DOMContentLoaded', function() {
+		const quantityInput = document.getElementById('quantity');
+		
+		if (quantityInput) {
+			// Permitir solo números en tiempo real
+			quantityInput.addEventListener('input', function(e) {
+				this.value = this.value.replace(/[^0-9]/g, '');
+			});
+		}
+	});
+
+	function validateAndAddToCart(event, itemID) {
+		event.preventDefault();
+		
+		const quantity = document.getElementById('quantity').value.trim();
+		const alertContainer = document.getElementById('alertContainer');
+		const quantityError = document.getElementById('quantityError');
+		
+		// Limpiar errores previos
+		alertContainer.innerHTML = '';
+		quantityError.style.display = 'none';
+		
+		// Validaciones
+		if (quantity === '') {
+			showError('Por favor ingresa una cantidad', alertContainer);
+			return false;
+		}
+		
+		// Validar que sea un número entero válido
+		if (!Number.isInteger(Number(quantity)) || isNaN(quantity)) {
+			showError('La cantidad debe ser un número entero válido', alertContainer);
+			return false;
+		}
+		
+		const quantityNum = parseInt(quantity);
+		
+		if (quantityNum < 1) {
+			showError('La cantidad debe ser mayor a 0', alertContainer);
+			return false;
+		}
+		
+		// Si todas las validaciones pasan, enviar el formulario
+		const form = document.querySelector('form');
+		const input = document.createElement('input');
+		input.type = 'hidden';
+		input.name = 'AddToCart';
+		input.value = '1';
+		form.appendChild(input);
+		form.submit();
+	}
+
+	function showError(message, container) {
+		const alert = document.createElement('div');
+		alert.className = 'alert alert-danger alert-dismissible fade show';
+		alert.role = 'alert';
+		alert.innerHTML = `
+			<strong>¡Error!</strong> ${message}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		`;
+		container.appendChild(alert);
 	}
 </script>
 <?php echo ob_get_clean(); ?>
