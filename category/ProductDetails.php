@@ -16,8 +16,12 @@ include( ROOT_PATH . 'includes/header.php' );
 	$productID = $product[ 'productID' ];
 	?>
 	<!-- display product image on left   -->
-	<form action="../checkout/cart_view.php" method="post">
+	<form action="../checkout/cart_view.php" method="post" onsubmit="return validateQuantity(event)">
 		<input type="hidden" name="action" value="add">
+		<input type="hidden" name="AddToCart" value="1">
+		<input type="hidden" name="id" value="<?php echo $product['productID']; ?>">
+		<input type="hidden" name="title" value="<?php echo $product['title']; ?>">
+		<input type="hidden" name="price" value="<?php echo $product['price']; ?>">
 
 
 
@@ -62,14 +66,15 @@ include( ROOT_PATH . 'includes/header.php' );
 										<div class="col-sm-3">
 											<div class="form-group">
 												<label for="quantity">Cantidad:</label>
-												<input type="number" class="form-control" id="quantity" name="quantity" min="0">
+												<input type="text" class="form-control" id="quantity" name="quantity" placeholder="Ingrese cantidad">
+												<small class="form-text text-danger" id="quantityError" style="display:none;"></small>
 											</div>
 										</div>
 
 										<div class="col-sm-9">
 											<div class="form-group">
 												<label for="color">Color:</label>
-												<select name="size" class="form-control" id="size">
+													<select name="color" class="form-control" id="color">
 													<option value=""></option>
 													<option value="Rose Gold">Oro</option>
 													<option value="Silver">Plata</option>
@@ -79,6 +84,7 @@ include( ROOT_PATH . 'includes/header.php' );
 										</div>
 
 									</div>
+									<div id="alertContainer"></div>
 
 								</div>
 							</div>
@@ -89,7 +95,7 @@ include( ROOT_PATH . 'includes/header.php' );
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" onclick="closeModal()">Cerrar</button>
-						<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
+					<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
 					</div>
 				</div>
 			</div>
@@ -126,7 +132,7 @@ include( ROOT_PATH . 'includes/header.php' );
 			<div class="col-sm-9">
 				<div class="form-group">
 					<label for="color">Color:</label>
-					<select name="size" class="form-control" id="size">
+				<select name="color" class="form-control" id="color">
 						<option value=""></option>
 						<option value="Rose Gold">Oro</option>
 						<option value="Silver">Plata</option>
@@ -140,7 +146,79 @@ include( ROOT_PATH . 'includes/header.php' );
 		</div>
 	</form>
 
-
 </main>
+
+<script>
+	function closeModal() {
+		jQuery('#details-modal').modal('hide');
+		setTimeout(function(){
+			jQuery('#details-modal').remove();
+			jQuery('.modal-backdrop').remove();
+		},500);
+	}
+
+	// Validación de cantidad en campo de texto (solo números)
+	document.addEventListener('DOMContentLoaded', function() {
+		const quantityInputs = document.querySelectorAll('#quantity');
+		
+		quantityInputs.forEach(function(input) {
+			// Permitir solo números en tiempo real
+			input.addEventListener('input', function(e) {
+				this.value = this.value.replace(/[^0-9]/g, '');
+			});
+		});
+	});
+
+	function validateQuantity(event) {
+		// Buscar el input de cantidad dentro del modal
+		const modal = document.getElementById('details-modal');
+		const quantity = modal ? modal.querySelector('#quantity').value.trim() : '';
+		const alertContainer = modal ? modal.querySelector('#alertContainer') : null;
+		
+		if (!alertContainer) return true;
+		
+		// Limpiar errores previos
+		alertContainer.innerHTML = '';
+		
+		// Validaciones
+		if (quantity === '') {
+			event.preventDefault();
+			showError('Por favor ingresa una cantidad', alertContainer);
+			return false;
+		}
+		
+		// Validar que sea un número entero válido
+		if (!Number.isInteger(Number(quantity)) || isNaN(quantity)) {
+			event.preventDefault();
+			showError('La cantidad debe ser un número entero válido', alertContainer);
+			return false;
+		}
+		
+		const quantityNum = parseInt(quantity);
+		
+		if (quantityNum < 1) {
+			event.preventDefault();
+			showError('La cantidad debe ser mayor a 0', alertContainer);
+			return false;
+		}
+		
+		// Si todas las validaciones pasan, permitir el envío
+		return true;
+	}
+
+	function showError(message, container) {
+		const alert = document.createElement('div');
+		alert.className = 'alert alert-danger alert-dismissible fade show';
+		alert.role = 'alert';
+		alert.innerHTML = `
+			<strong>¡Error!</strong> ${message}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		`;
+		container.appendChild(alert);
+	}
+</script>
+
 
 <?php include(ROOT_PATH . 'includes/footer.php'); ?>
