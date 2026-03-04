@@ -1,126 +1,122 @@
-
 <?php
+session_start();
 require_once('../includes/config.php');
 require_once(ROOT_PATH . 'core/init.php');
 include(ROOT_PATH .'includes/header.php');
-include(ROOT_PATH .'model/database.php');
-include(ROOT_PATH .'model/accountsDB.php');
+?>
+<?php
+$successMessage = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $subject = $_POST["subject"];
+    $message = $_POST["message"];
+
+    $successMessage = "Your message has been sent successfully!";
+}
 ?>
 
-<div class="d-flex flex-column min-vh-100">
-    <main class="container my-auto py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white border-0 pt-4">
-                        <h1 class="text-center text-uppercase text-gold mb-2"><strong>Contact Us</strong></h1>
-                        <p class="text-center text-muted mb-0">We'd love to hear from you</p>
-                    </div>
-                    
-                    <div class="card-body px-5 pb-5 pt-4">
-                        <!-- Success Message -->
-                        <?php if(isset($_SESSION['contact_success'])): ?>
-                            <div class="alert alert-success alert-dismissible fade show">
-                                <?php echo $_SESSION['contact_success']; unset($_SESSION['contact_success']); ?>
-                                <button type="button" class="close" data-dismiss="alert">
-                                    <span>&times;</span>
-                                </button>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <!-- Error Message -->
-                        <?php if(isset($_SESSION['contact_error'])): ?>
-                            <div class="alert alert-danger alert-dismissible fade show">
-                                <?php echo $_SESSION['contact_error']; unset($_SESSION['contact_error']); ?>
-                                <button type="button" class="close" data-dismiss="alert">
-                                    <span>&times;</span>
-                                </button>
-                            </div>
-                        <?php endif; ?>
-                        
-                        <!-- Contact Form -->
-                        <form class="needs-validation" novalidate action="<?php echo BASE_URL; ?>account/contact_process.php" method="post">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="contactName">Your Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="contactName" name="name" required>
-                                    <div class="invalid-feedback">Please provide your name</div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="contactEmail">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="contactEmail" name="email" required>
-                                    <div class="invalid-feedback">Please provide a valid email</div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contactSubject">Subject <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="contactSubject" name="subject" required>
-                                <div class="invalid-feedback">Please provide a subject</div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="contactMessage">Message <span class="text-danger">*</span></label>
-                                <textarea class="form-control" id="contactMessage" name="message" rows="5" required></textarea>
-                                <div class="invalid-feedback">Please write your message</div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-gold btn-block py-2 mt-3" name="send_message">
-                                <i class="fas fa-paper-plane mr-2"></i> Send Message
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Contact Information -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-lg-8 col-md-10">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h4 class="text-gold mb-4">Our Contact Information</h4>
-                        
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <i class="fas fa-map-marker-alt fa-2x text-gold mb-2"></i>
-                                <h5>Address</h5>
-                                <p>123 Jewelry Street<br>Boston, MA 02115</p>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <i class="fas fa-phone fa-2x text-gold mb-2"></i>
-                                <h5>Phone</h5>
-                                <p>+1 (617) 555-0123<br>Mon-Fri: 9am-6pm</p>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <i class="fas fa-envelope fa-2x text-gold mb-2"></i>
-                                <h5>Email</h5>
-                                <p>info@yourjewelry.com<br>support@yourjewelry.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+<div class="container mt-5 mb-5">
 
-    <?php include(ROOT_PATH . 'includes/footer.php'); ?>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+
+            <h1 class="text-center mb-3">Contact Us</h1>
+            <p class="text-center text-muted mb-5">We'd love to hear from you</p>
+
+            <!-- FORM -->
+            <?php if($successMessage != ""): ?>
+            <div class="alert alert-success text-center">
+                <?php echo $successMessage; ?>
+            </div>
+            <?php endif; ?>
+
+            <form method="post">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                </div>
+
+                <div class="mb-3">
+                    <textarea class="form-control" name="message" rows="4" placeholder="Your Message" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Send Message
+                </button>
+            </form>
+
+            <hr class="my-5">
+
+            <!-- CONTACT INFO -->
+            <div class="row text-center">
+
+                <div class="col-md-4 mb-4">
+                    <h5>Location</h5>
+                    <p>
+                        Aurora Collection<br>
+                        Santa Cruz, Bolivia<br>
+                        <a href="https://maps.app.goo.gl/g9YyHB3suWjmtHYw7" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                           View on Google Maps
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5>Phone</h5>
+                    <p>
+                        <a href="tel:63313783">63313783</a><br>
+                        Mon-Fri: 9am-6pm
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5>Email</h5>
+                    <p>
+                        <a href="mailto:auroracollection@gmail.com">
+                            auroracollection@gmail.com
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+            <hr class="my-4">
+
+            <!-- SOCIAL MEDIA -->
+            <div class="text-center">
+                <h5 class="mb-3">Follow Us</h5>
+
+                <a href="https://www.instagram.com/auroracollection" target="_blank" class="mx-3">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+
+                <a href="https://www.facebook.com/auroracollection" target="_blank" class="mx-3">
+                    <i class="fab fa-facebook fa-2x"></i>
+                </a>
+
+                <a href="https://www.tiktok.com/@auroracollection" target="_blank" class="mx-3">
+                    <i class="fab fa-tiktok fa-2x"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
-<!-- Form Validation Script -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Bootstrap validation
-    var forms = document.querySelectorAll('.needs-validation');
-    
-    Array.prototype.slice.call(forms).forEach(function(form) {
-        form.addEventListener('submit', function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-    });
-});
-</script>
+<?php include(ROOT_PATH .'includes/footer.php'); ?>
