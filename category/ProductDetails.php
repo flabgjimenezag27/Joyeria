@@ -16,8 +16,12 @@ include( ROOT_PATH . 'includes/header.php' );
 	$productID = $product[ 'productID' ];
 	?>
 	<!-- display product image on left   -->
-	<form action="../checkout/cart_view.php" method="post">
+	<form action="../checkout/cart_view.php" method="post" onsubmit="return validateQuantity(event)">
 		<input type="hidden" name="action" value="add">
+		<input type="hidden" name="AddToCart" value="1">
+		<input type="hidden" name="id" value="<?php echo $product['productID']; ?>">
+		<input type="hidden" name="title" value="<?php echo $product['title']; ?>">
+		<input type="hidden" name="price" value="<?php echo $product['price']; ?>">
 
 
 
@@ -70,7 +74,7 @@ include( ROOT_PATH . 'includes/header.php' );
 										<div class="col-sm-9">
 											<div class="form-group">
 												<label for="color">Color:</label>
-												<select name="size" class="form-control" id="size">
+													<select name="color" class="form-control" id="color">
 													<option value=""></option>
 													<option value="Rose Gold">Oro</option>
 													<option value="Silver">Plata</option>
@@ -91,7 +95,7 @@ include( ROOT_PATH . 'includes/header.php' );
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" onclick="closeModal()">Cerrar</button>
-						<button type="button" class="btn btn-warning" onclick="validateAndAddToCart(event)"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
+					<button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
 					</div>
 				</div>
 			</div>
@@ -128,7 +132,7 @@ include( ROOT_PATH . 'includes/header.php' );
 			<div class="col-sm-9">
 				<div class="form-group">
 					<label for="color">Color:</label>
-					<select name="size" class="form-control" id="size">
+				<select name="color" class="form-control" id="color">
 						<option value=""></option>
 						<option value="Rose Gold">Oro</option>
 						<option value="Silver">Plata</option>
@@ -155,35 +159,37 @@ include( ROOT_PATH . 'includes/header.php' );
 
 	// Validación de cantidad en campo de texto (solo números)
 	document.addEventListener('DOMContentLoaded', function() {
-		const quantityInput = document.getElementById('quantity');
+		const quantityInputs = document.querySelectorAll('#quantity');
 		
-		if (quantityInput) {
+		quantityInputs.forEach(function(input) {
 			// Permitir solo números en tiempo real
-			quantityInput.addEventListener('input', function(e) {
+			input.addEventListener('input', function(e) {
 				this.value = this.value.replace(/[^0-9]/g, '');
 			});
-		}
+		});
 	});
 
-	function validateAndAddToCart(event) {
-		event.preventDefault();
+	function validateQuantity(event) {
+		// Buscar el input de cantidad dentro del modal
+		const modal = document.getElementById('details-modal');
+		const quantity = modal ? modal.querySelector('#quantity').value.trim() : '';
+		const alertContainer = modal ? modal.querySelector('#alertContainer') : null;
 		
-		const quantity = document.getElementById('quantity').value.trim();
-		const alertContainer = document.getElementById('alertContainer');
-		const quantityError = document.getElementById('quantityError');
+		if (!alertContainer) return true;
 		
 		// Limpiar errores previos
 		alertContainer.innerHTML = '';
-		if (quantityError) quantityError.style.display = 'none';
 		
 		// Validaciones
 		if (quantity === '') {
+			event.preventDefault();
 			showError('Por favor ingresa una cantidad', alertContainer);
 			return false;
 		}
 		
 		// Validar que sea un número entero válido
 		if (!Number.isInteger(Number(quantity)) || isNaN(quantity)) {
+			event.preventDefault();
 			showError('La cantidad debe ser un número entero válido', alertContainer);
 			return false;
 		}
@@ -191,18 +197,13 @@ include( ROOT_PATH . 'includes/header.php' );
 		const quantityNum = parseInt(quantity);
 		
 		if (quantityNum < 1) {
+			event.preventDefault();
 			showError('La cantidad debe ser mayor a 0', alertContainer);
 			return false;
 		}
 		
-		// Si todas las validaciones pasan, enviar el formulario
-		const form = document.querySelector('form');
-		const input = document.createElement('input');
-		input.type = 'hidden';
-		input.name = 'AddToCart';
-		input.value = '1';
-		form.appendChild(input);
-		form.submit();
+		// Si todas las validaciones pasan, permitir el envío
+		return true;
 	}
 
 	function showError(message, container) {

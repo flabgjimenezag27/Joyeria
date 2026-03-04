@@ -16,8 +16,9 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 
 <!-- Details Modal -->
 <?php ob_start(); ?>
-<form action="../checkout/cart_view.php" method="post" >
+<form action="../checkout/cart_view.php" method="post" onsubmit="return validateQuantity(event)">
 <input type="hidden" name="action" value="add">
+<input type="hidden" name="AddToCart" value="1">
 <div class="modal fade details-1" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -83,7 +84,7 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" onclick="closeModal()">Cerrar</button>
-				<button type="button" class="btn btn-primary" onclick="validateAndAddToCart(event, <?php echo $itemID = $id; ?>)"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
+				<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-shopping-cart"></span> Añadir al Carrito</button>
 			</div>
 		</div>
 	</div>
@@ -110,25 +111,23 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 		}
 	});
 
-	function validateAndAddToCart(event, itemID) {
-		event.preventDefault();
-		
+	function validateQuantity(event) {
 		const quantity = document.getElementById('quantity').value.trim();
 		const alertContainer = document.getElementById('alertContainer');
-		const quantityError = document.getElementById('quantityError');
 		
 		// Limpiar errores previos
 		alertContainer.innerHTML = '';
-		quantityError.style.display = 'none';
 		
 		// Validaciones
 		if (quantity === '') {
+			event.preventDefault();
 			showError('Por favor ingresa una cantidad', alertContainer);
 			return false;
 		}
 		
 		// Validar que sea un número entero válido
 		if (!Number.isInteger(Number(quantity)) || isNaN(quantity)) {
+			event.preventDefault();
 			showError('La cantidad debe ser un número entero válido', alertContainer);
 			return false;
 		}
@@ -136,18 +135,13 @@ if (empty($_SESSION['cart'])) { $_SESSION['cart'] = array(); }
 		const quantityNum = parseInt(quantity);
 		
 		if (quantityNum < 1) {
+			event.preventDefault();
 			showError('La cantidad debe ser mayor a 0', alertContainer);
 			return false;
 		}
 		
-		// Si todas las validaciones pasan, enviar el formulario
-		const form = document.querySelector('form');
-		const input = document.createElement('input');
-		input.type = 'hidden';
-		input.name = 'AddToCart';
-		input.value = '1';
-		form.appendChild(input);
-		form.submit();
+		// Si todas las validaciones pasan, permitir el envío
+		return true;
 	}
 
 	function showError(message, container) {
