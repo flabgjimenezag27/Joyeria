@@ -26,7 +26,13 @@ session_start(); ?>
       <div class="card-body">
         <input type="text" class="form-control form-control-sm" name="shipAddress" placeholder="Dirección..." required><br>
 		<input type="text" class="form-control form-control-sm" name="shipCity"  placeholder="Ciudad..." required><br>
-		<input type="text" class="form-control form-control-sm" name="shipZipcode"  placeholder="Código postal..." required><br>
+<input type="text" 
+       class="form-control form-control-sm" 
+       name="billZipcode" 
+       placeholder="Código postal..." 
+       pattern="[0-9]+" 
+       inputmode="numeric"
+       required><br>
         <select class="form-control form-control-sm" name="shipState" required>
   <option value="">Selecciona un departamento</option>
   <option value="SC">Santa Cruz</option>
@@ -59,7 +65,15 @@ session_start(); ?>
        <div id="billingAddress">
       <input type="text" class="form-control form-control-sm" name="billAddress" placeholder="Dirección de facturación..." required autofocus><br>
 <input type="text" class="form-control form-control-sm" name="billCity"  placeholder="Ciudad..." required autofocus><br>
-<input type="text" class="form-control form-control-sm" name="billZipcode"  placeholder="Código postal..." required autofocus><br>
+
+<input type="text" 
+       class="form-control form-control-sm" 
+       name="shipZipcode"
+       id="shipZipcode"
+       placeholder="Código postal..."
+       required>
+<small class="text-danger" id="shipZipError"></small><br>
+
        <select class="form-control form-control-sm" name="billState" required>
   <option value="">Selecciona un departamento</option>
   <option value="SC">Santa Cruz</option>
@@ -87,9 +101,32 @@ session_start(); ?>
     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
       <div class="card-body">
       <input type="text" class="form-control form-control-sm" name="cardName" placeholder="name on card" required autofocus><br>
-        <input type="text" class="form-control form-control-sm" name="cardNumber"  placeholder="card number" required autofocus><br>
-        <input type="text" class="form-control form-control-sm" name="cardExpiration"  placeholder="MM/YY" required autofocus><br>
-        <input type="text" class="form-control form-control-sm" name="cardCVV"  placeholder="CVV"required autofocus><br>
+     
+      <input type="text" 
+       class="form-control form-control-sm" 
+       name="cardNumber"
+       id="cardNumber"
+       placeholder="card number"
+       required>
+      <small class="text-danger" id="cardNumberError"></small>
+
+<input type="text" 
+       class="form-control form-control-sm" 
+       name="cardExpiration"
+       id="cardExpiration"
+       placeholder="MM/YY"
+       required>
+
+<small class="text-danger" id="expirationError"></small>
+      
+        <input type="text" 
+       class="form-control form-control-sm" 
+       name="cardCVV" 
+       id="cardCVV"
+       placeholder="CVV"
+       required>
+
+      <small class="text-danger" id="cvvError"></small>
 
     </div>
     </div>
@@ -108,7 +145,61 @@ session_start(); ?>
         </div>
     </div>
 
+<script>
 
+// CVV validación
+document.getElementById("cardCVV").addEventListener("input", function() {
+    const value = this.value;
+    const error = document.getElementById("cvvError");
+
+    if (!/^[0-9]*$/.test(value)) {
+        error.textContent = "El CVV solo debe contener números.";
+    } else if (value.length > 0 && value.length !== 4) {
+        error.textContent = "Debe tener 4 dígitos.";
+    } else {
+        error.textContent = "";
+    }
+});
+
+// Código Postal validación
+document.getElementById("shipZipcode").addEventListener("input", function() {
+    const value = this.value;
+    const error = document.getElementById("shipZipError");
+
+    if (!/^[0-9]*$/.test(value)) {
+        error.textContent = "El código postal solo debe contener números.";
+    } else {
+        error.textContent = "";
+    }
+});
+
+// Número de tarjeta validación
+document.getElementById("cardNumber").addEventListener("input", function() {
+    const value = this.value;
+    const error = document.getElementById("cardNumberError");
+
+    if (!/^[0-9]*$/.test(value)) {
+        error.textContent = "El número de tarjeta solo debe contener números.";
+    } else if (value.length > 7 && value.length !== 8) {
+        error.textContent = "Debe tener 8 o 7 dígitos.";
+    } else {
+        error.textContent = "";
+    }
+});
+
+// Fecha MM/YY validación
+document.getElementById("cardExpiration").addEventListener("input", function() {
+    const value = this.value;
+    const error = document.getElementById("expirationError");
+
+    if (!/^(0[1-9]|1[0-2])\/?[0-9]{0,2}$/.test(value)) {
+        error.textContent = "Formato inválido. Use MM/YY.";
+    } else {
+        error.textContent = "";
+    }
+});
+
+</script>
 
 
 <?php include(ROOT_PATH .'includes/footer.php'); ?>
