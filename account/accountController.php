@@ -51,11 +51,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['login'])){
 
 	$user = checkUser($useremail, $userpassword);
 	if($user){
-		$_SESSION['customerID'] = (int)$user['customerID'];
-		header("Location:home.php?user=".$user['firstName']);
-		exit();
-
-	}else{
+    $_SESSION['customerID'] = (int)$user['customerID'];
+    $_SESSION['welcome'] = "Welcome to Aurora Collection";
+    header("Location:home.php");
+    exit();
+	}
+	else{
     $error = "Usuario o contraseña incorrectos.";
 	}
 
