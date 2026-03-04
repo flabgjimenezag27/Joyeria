@@ -9,8 +9,7 @@ include('../includes/adminHeader.php'); ?>
 
 	   <div class="container">
 
-	    <h3 class="text-center">Welcome Admin!</h3>
-    <div class="admingroup">
+<h3 class="text-center" style="color:red;">ESTE ES EL HOME CORRECTO</h3>    <div class="admingroup">
 
 			<p class="pl-4">JSON & XML Data Links</p>
         <ul >
