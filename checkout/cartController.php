@@ -7,7 +7,7 @@ function addItemToCart($pID, $pPrice, $pTitle, $pQuantity, $pColor) {
     // If item already exists in cart, update quantity
     if (isset($_SESSION['cart'][$pID])) {
         $pQuantity += $_SESSION['cart'][$pID]['quantity'];
-        update_item($pID, $pPrice, $pTitle, $pQuantity, $pColor);
+        update_item($pID, $pQuantity);
         return;
     }
 

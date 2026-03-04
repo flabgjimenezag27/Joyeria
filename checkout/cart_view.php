@@ -11,8 +11,8 @@ session_start(); ?>
        if(isset($_SESSION['selectedProductID'])){$pID = $_SESSION['selectedProductID'];}
        //$pID = $itemID;
        $pTitle = filter_input(INPUT_POST, 'title');
-       $pQuantity = filter_input(INPUT_POST, 'quantity');
-       $pPrice = filter_input(INPUT_POST, 'price');
+       $pQuantity = (int) filter_input(INPUT_POST, 'quantity');
+       $pPrice = (float) filter_input(INPUT_POST, 'price');
        $pColor = filter_input(INPUT_POST, 'color');
        addItemToCart($pID, $pPrice, $pTitle, $pQuantity, $pColor);
        include('cart.php');
